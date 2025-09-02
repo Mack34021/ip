@@ -1,10 +1,10 @@
 public class Task{
     private String task;
-    private boolean taskDone;
+    private boolean isTaskDone;
 
     public Task(String task) {
         this.task = task;
-        this.taskDone = false;
+        this.isTaskDone = false;
     }
 
     public String getTaskString() {
@@ -15,11 +15,11 @@ public class Task{
         this.task = task;
     }
 
-    public boolean isTaskDone() {
-        return taskDone;
+    public boolean getIsTaskDone() {
+        return isTaskDone;
     }
 
     public void setTaskDone(boolean taskDone) {
-        this.taskDone = taskDone;
+        this.isTaskDone = taskDone;
     }
 }
