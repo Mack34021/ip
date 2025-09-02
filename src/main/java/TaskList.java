@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class TaskList {
-    private ArrayList<String> taskList = new ArrayList<String>();
+    private ArrayList<Task> taskList = new ArrayList<Task>();
 
     public TaskList() {
-        this.taskList.add("LISTROOT");
+        this.taskList.add(new Task("ROOTTASK"));
     }
 
     public int getTaskListLength() {
@@ -12,10 +12,10 @@ public class TaskList {
     }
 
     public void addTaskToList(String str) {
-        taskList.add(str);
+        taskList.add(new Task(str));
     }
 
-    public String getTaskFromList(int index) {
+    public Task getTaskFromList(int index) {
         return taskList.get(index);
     }
 
