@@ -15,6 +15,14 @@ public class TaskList {
         taskList.add(new Task(str));
     }
 
+    public void addDeadlineToList(String str, String dueBy) {
+        taskList.add(new Deadline(str, dueBy));
+    }
+
+    public void addEventToList(String str, String startTime, String endTime) {
+        taskList.add(new Event(str, startTime, endTime));
+    }
+
     public Task getTaskFromList(int index) {
         return taskList.get(index);
     }

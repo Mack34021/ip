@@ -23,7 +23,7 @@ public class Baraleous {
                     String indexToMark = commandsList.get(1);
                     markTaskDone(indexToMark, taskList);
                 }else if (commandsList.size() > 2) {
-                    printMessage("... Thats too many arguments", false);
+                    printMessage("... That's too many arguments", false);
                 }else{
                     printMessage("... Which task should I mark????", false);
                 }
@@ -33,17 +33,133 @@ public class Baraleous {
                     String indexToMark = commandsList.get(1);
                     unmarkTaskDone(indexToMark, taskList);
                 }else if (commandsList.size() > 2) {
-                    printMessage("... Thats too many arguments", false);
+                    printMessage("... That's too many arguments", false);
                 }else {
                     printMessage("... Which task should I to mark????", false);
                 }
                 break;
+            case "deadline":    // Marks task as done
+                addDeadlineToTaskList(commandsList, taskList);
+                break;
+            case "event":    // Marks task as done
+                addEventToTaskList(commandsList, taskList);
+                break;
             default:        // Requested new task added
                 taskList.addTaskToList(userInput.trim());
-                printMessage("Added: " + userInput, false);
+                printMessage("Added: '" + userInput + "'", false);
                 break;
             }
         }
+    }
+
+    /**
+     * Adds event to the taskList list
+     *
+     * @param commandsList The user's input command, split into words
+     * @param taskList The taskList to add the newly-created task to
+     */
+    private static void addEventToTaskList(ArrayList<String> commandsList, TaskList taskList) {
+        // todo: add error checking
+        // Loop through all words in command, looking for start and end times
+        int startTimeIndex = 0;
+        int endTimeIndex = 0;
+        for (int i = 1; i < commandsList.size(); i++){
+            String str = commandsList.get(i);
+            if (str.startsWith("/from")){
+                if (startTimeIndex == 0){
+                    startTimeIndex = i;
+                }else{
+                    System.out.println("ERROR: multiple start times for event.");
+                }
+            }else if (str.startsWith("/to")){
+                if (endTimeIndex == 0){
+                    endTimeIndex = i;
+                }else{
+                    System.out.println("ERROR: multiple end times for event.");
+                }
+            }
+        }
+
+        StringBuilder eventName = new StringBuilder();
+        StringBuilder eventStartTime = new StringBuilder();
+        StringBuilder eventEndTime = new StringBuilder();
+
+        // Builds strings with the known start and endpoints of sections of the command string
+        for (int i=1; i < startTimeIndex; i++){
+            eventName.append(commandsList.get(i)).append(" ");
+        }
+        for (int i=startTimeIndex+1; i < endTimeIndex; i++){
+            eventStartTime.append(commandsList.get(i)).append(" ");
+        }
+        for (int i=endTimeIndex+1; i < commandsList.size(); i++){
+            eventEndTime.append(commandsList.get(i)).append(" ");
+        }
+
+        String eventNameTrimmed =      eventName.toString().trim();
+        String eventStartTimeTrimmed = eventStartTime.toString().trim();
+        String eventEndTimeTrimmed =   eventEndTime.toString().trim();
+
+        // Trim all strings, then create and add deadline to the task list
+        if (eventNameTrimmed.isEmpty()){
+            eventNameTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
+        }
+        if (eventStartTimeTrimmed.isEmpty()){
+            eventStartTimeTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
+        }
+        if (eventEndTimeTrimmed.isEmpty()){
+            eventEndTimeTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
+        }
+        taskList.addEventToList(eventNameTrimmed, eventStartTimeTrimmed, eventEndTimeTrimmed);
+        printMessage("Added Event: '" + eventNameTrimmed + "' starting at '" + eventStartTimeTrimmed
+                + "' and ending at '" + eventEndTimeTrimmed + "'", false);
+    }
+
+    /**
+     * Adds deadline to the taskList list
+     *
+     * @param commandsList The user's input command, split into words
+     * @param taskList The taskList to add the newly-created task to
+     */
+    private static void addDeadlineToTaskList(ArrayList<String> commandsList, TaskList taskList) {
+        //        if (commandsList.size() == 2) {   todo: add error checking
+    //            String indexToMark = commandsList.get(1);
+    //            unmarkTaskDone(indexToMark, taskList);
+    //        }else if (commandsList.size() > 2) {
+    //            printMessage("... That's too many arguments", false);
+    //        }else {
+    //            printMessage("... Which task should I to mark????", false);
+    //        }
+        StringBuilder deadlineName = new StringBuilder();
+        StringBuilder deadlineDueBy = new StringBuilder();
+        // Loop through all words in command, looking for "/by" to find the due time
+        for (int i = 1; i < commandsList.size(); i++){
+            String str = commandsList.get(i);
+            if(str.startsWith("/by")){
+                for (int j = i+1; j < commandsList.size(); j++){
+                    String str2 = commandsList.get(j);
+                    if (str2.startsWith("/")) {
+                        break;  // As another command found, is no longer part of '/by'
+                    }
+                    deadlineDueBy.append(str2).append(" ");
+                }
+                break;
+            }else{
+                // Then not the deadline, so add to the task text
+                deadlineName.append(str).append(" ");
+            }
+        }
+        // Trim all strings, then create and add deadline to the task list
+        String deadlineNameTrimmed = deadlineName.toString().trim();
+        String deadlineDueByTrimmed = deadlineDueBy.toString().trim();
+        if (deadlineNameTrimmed.isEmpty()){
+            deadlineNameTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
+        }
+        if (deadlineDueByTrimmed.isEmpty()){
+            deadlineDueByTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
+        }
+        taskList.addDeadlineToList(deadlineNameTrimmed, deadlineDueByTrimmed);
+        printMessage("Added Deadline: '" + deadlineNameTrimmed
+                + "' due by '" + deadlineDueByTrimmed + "'", false);
     }
 
     /**
@@ -66,10 +182,10 @@ public class Baraleous {
         }
         Task curTask = taskList.getTaskFromList(taskIndex);
         if (curTask.getIsTaskDone()) {
-            printMessage("Hey! That's already complete\n[X] " + curTask.getTaskString(), false);
+            printMessage("Hey! That's already complete\n[X] " + curTask.toString(), false);
         }else{
             curTask.setTaskDone(true);
-            printMessage("OK! Task marked complete!\n[X] " + curTask.getTaskString(), false);
+            printMessage("OK! Task marked complete!\n[X] " + curTask.toString(), false);
         }
     }
 
@@ -94,11 +210,11 @@ public class Baraleous {
         Task curTask = taskList.getTaskFromList(taskIndex);
         if (!curTask.getIsTaskDone()) {
             printMessage("Hey! That's already not complete\n[ ] "
-                    + curTask.getTaskString(), false);
+                    + curTask.toString(), false);
         }else{
             curTask.setTaskDone(false);
             printMessage("OK! Task marked as incomplete!\n[ ] "
-                    + curTask.getTaskString(), false);
+                    + curTask.toString(), false);
         }
     }
 
@@ -112,7 +228,15 @@ public class Baraleous {
         for (int i = 1; i < taskList.getTaskListLength(); i++) {
             Task curTask = taskList.getTaskFromList(i);
             String taskMarker = curTask.getIsTaskDone() ? "[X]" : "[ ]";
-            taskListString.append(String.format("%d.%s %s", i, taskMarker, curTask.getTaskString()));
+            String taskType;
+            if (curTask instanceof Deadline){
+                taskType = "[D]";
+            }else if (curTask instanceof Event){
+                taskType = "[E]";
+            }else{
+                taskType = "[T]";
+            }
+            taskListString.append(String.format("%d.%s%s %s", i, taskType, taskMarker, curTask.toString()));
             if (i < taskList.getTaskListLength()-1) {
                 taskListString.append('\n');
             }

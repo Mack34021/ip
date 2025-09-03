@@ -7,10 +7,6 @@ public class Task{
         this.isTaskDone = false;
     }
 
-    public String getTaskString() {
-        return task;
-    }
-
     public void setTaskString(String task) {
         this.task = task;
     }
@@ -21,5 +17,10 @@ public class Task{
 
     public void setTaskDone(boolean taskDone) {
         this.isTaskDone = taskDone;
+    }
+
+    @Override
+    public String toString() {
+        return task;
     }
 }
