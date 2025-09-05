@@ -1,0 +1,18 @@
+Test input 1
+Test2
+mark 1
+mark 1
+mark 2
+mark 2
+deadline work /by this afternoon
+deadline play /by never :((((
+list
+mark 3
+list
+event sleeping /from 2am /to feels like 6am RIP my sleep schedule
+mark 5
+list
+todo sleep
+todo cry
+mark 7
+list

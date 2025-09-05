@@ -1,7 +1,81 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
-
+  _________Baraleous__________
+  Hello! I'm Baraleous XIV!
+  What can I do for you today?
+  ____________User____________
+  _________Baraleous__________
+  Added: 'Test input 1'
+  ____________User____________
+  _________Baraleous__________
+  Added: 'Test2'
+  ____________User____________
+  _________Baraleous__________
+  OK! Task marked complete!
+  [X] Test input 1
+  ____________User____________
+  _________Baraleous__________
+  Hey! That's already complete
+  [X] Test input 1
+  ____________User____________
+  _________Baraleous__________
+  OK! Task marked complete!
+  [X] Test2
+  ____________User____________
+  _________Baraleous__________
+  Hey! That's already complete
+  [X] Test2
+  ____________User____________
+  _________Baraleous__________
+  Added Deadline: 'work' due by 'this afternoon'
+  ____________User____________
+  _________Baraleous__________
+  Added Deadline: 'play' due by 'never :(((('
+  ____________User____________
+  _________Baraleous__________
+  1.[T][X] Test input 1
+  2.[T][X] Test2
+  3.[D][ ] work (by: this afternoon)
+  4.[D][ ] play (by: never :(((()
+  ____________User____________
+  _________Baraleous__________
+  OK! Task marked complete!
+  [X] work (by: this afternoon)
+  ____________User____________
+  _________Baraleous__________
+  1.[T][X] Test input 1
+  2.[T][X] Test2
+  3.[D][X] work (by: this afternoon)
+  4.[D][ ] play (by: never :(((()
+  ____________User____________
+  _________Baraleous__________
+  Added Event: 'sleeping' starting at '2am' and ending at 'feels like 6am RIP my sleep schedule'
+  ____________User____________
+  _________Baraleous__________
+  OK! Task marked complete!
+  [X] sleeping (from: 2am to: feels like 6am RIP my sleep schedule)
+  ____________User____________
+  _________Baraleous__________
+  1.[T][X] Test input 1
+  2.[T][X] Test2
+  3.[D][X] work (by: this afternoon)
+  4.[D][ ] play (by: never :(((()
+  5.[E][X] sleeping (from: 2am to: feels like 6am RIP my sleep schedule)
+  ____________User____________
+  _________Baraleous__________
+  Added: 'todo sleep'
+  ____________User____________
+  _________Baraleous__________
+  Added: 'todo cry'
+  ____________User____________
+  _________Baraleous__________
+  OK! Task marked complete!
+  [X] todo cry
+  ____________User____________
+  _________Baraleous__________
+  1.[T][X] Test input 1
+  2.[T][X] Test2
+  3.[D][X] work (by: this afternoon)
+  4.[D][ ] play (by: never :(((()
+  5.[E][X] sleeping (from: 2am to: feels like 6am RIP my sleep schedule)
+  6.[T][ ] todo sleep
+  7.[T][X] todo cry
+  ____________User____________
