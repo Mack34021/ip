@@ -3,78 +3,101 @@ import java.util.Scanner;
 
 public class Baraleous {
     public static void main(String[] args) {
-        String logo = "Hello! I'm Baraleous XIV!\n" +
-                "What can I do for you today?";
+        String logo = "Hello! I'm Baraleous XIV!\n"
+                + "What can I do for you today?";
         printMessage(logo, false);
         Scanner scanner = new Scanner(System.in);
         TaskList taskList = new TaskList();
-        commandLoop: while(true) {
+        while (true) {
             String userInput = scanner.nextLine();
             ArrayList<String> commandsList = getArguments(userInput);
-            switch (commandsList.get(0)) {
-            case "bye":     // close program
-                printMessage("Goodbye!", true);
-                break commandLoop;
-            case "list":    // Requested list of all added tasks
-                listAllTasks(taskList);
-                break;
-            case "mark":    // Marks task as done
-                if (commandsList.size() == 2) {
-                    String indexToMark = commandsList.get(1);
-                    markTaskDone(indexToMark, taskList);
-                }else if (commandsList.size() > 2) {
-                    printMessage("... That's too many arguments", false);
-                }else{
-                    printMessage("... Which task should I mark????", false);
-                }
-                break;
-            case "unmark":    // Marks task as done
-                if (commandsList.size() == 2) {
-                    String indexToMark = commandsList.get(1);
-                    unmarkTaskDone(indexToMark, taskList);
-                }else if (commandsList.size() > 2) {
-                    printMessage("... That's too many arguments", false);
-                }else {
-                    printMessage("... Which task should I to mark????", false);
-                }
-                break;
-            case "deadline":    // Marks task as done
-                addDeadlineToTaskList(commandsList, taskList);
-                break;
-            case "event":    // Marks task as done
-                addEventToTaskList(commandsList, taskList);
-                break;
-            default:        // Requested new task added
-                taskList.addTaskToList(userInput.trim());
-                printMessage("Added: '" + userInput + "'", false);
+            if (commandSwitch(commandsList, taskList, userInput)) {
                 break;
             }
         }
     }
 
     /**
+     * Main switch used for different command types.
+     *
+     * @param commandsList The list of commands passed by the user, one word per index
+     * @param taskList     The program's main list of tasks (and events, deadline, etc.)
+     * @param userInput    The unsplit user input string.
+     * @return True if it needs to terminate early for program exit. False otherwise
+     */
+    private static boolean commandSwitch(ArrayList<String> commandsList, TaskList taskList, String userInput) {
+        switch (commandsList.get(0)) {
+        case "bye":     // close program
+            printMessage("Goodbye!", true);
+            return true;
+        case "list":    // Requested list of all added tasks
+            listAllTasks(taskList);
+            break;
+        case "mark":    // Marks task as done
+            if (commandsList.size() == 2) {
+                String indexToMark = commandsList.get(1);
+                markTaskDone(indexToMark, taskList);
+            } else if (commandsList.size() > 2) {
+                printMessage("... That's too many arguments", false);
+            } else {
+                printMessage("... Which task should I mark????", false);
+            }
+            break;
+        case "unmark":    // Marks task as done
+            if (commandsList.size() == 2) {
+                String indexToMark = commandsList.get(1);
+                unmarkTaskDone(indexToMark, taskList);
+            } else if (commandsList.size() > 2) {
+                printMessage("... That's too many arguments", false);
+            } else {
+                printMessage("... Which task should I to mark????", false);
+            }
+            break;
+        case "deadline":    // Marks task as done
+            addDeadlineToTaskList(commandsList, taskList);
+            break;
+        case "event":    // Marks task as done
+            addEventToTaskList(commandsList, taskList);
+            break;
+        case "task":    // Requested new task added
+            StringBuilder strBuil = new StringBuilder();
+            for (int i = 1; i < commandsList.size(); i++) {
+                strBuil.append(commandsList.get(i)).append(" ");
+            }
+            String taskToAdd = strBuil.toString().trim();
+            printMessage("Added: '" + taskToAdd + "'", false);
+            taskList.addTaskToList(taskToAdd);
+            break;
+        default:        // No actual commmand
+            printMessage("Need to add a command!", false);
+            break;
+        }
+        return false;
+    }
+
+    /**
      * Adds event to the taskList list
      *
      * @param commandsList The user's input command, split into words
-     * @param taskList The taskList to add the newly-created task to
+     * @param taskList     The taskList to add the newly-created task to
      */
     private static void addEventToTaskList(ArrayList<String> commandsList, TaskList taskList) {
         // todo: add error checking
         // Loop through all words in command, looking for start and end times
         int startTimeIndex = 0;
         int endTimeIndex = 0;
-        for (int i = 1; i < commandsList.size(); i++){
+        for (int i = 1; i < commandsList.size(); i++) {
             String str = commandsList.get(i);
-            if (str.startsWith("/from")){
-                if (startTimeIndex == 0){
+            if (str.startsWith("/from")) {
+                if (startTimeIndex == 0) {
                     startTimeIndex = i;
-                }else{
+                } else {
                     System.out.println("ERROR: multiple start times for event.");
                 }
-            }else if (str.startsWith("/to")){
-                if (endTimeIndex == 0){
+            } else if (str.startsWith("/to")) {
+                if (endTimeIndex == 0) {
                     endTimeIndex = i;
-                }else{
+                } else {
                     System.out.println("ERROR: multiple end times for event.");
                 }
             }
@@ -85,28 +108,28 @@ public class Baraleous {
         StringBuilder eventEndTime = new StringBuilder();
 
         // Builds strings with the known start and endpoints of sections of the command string
-        for (int i=1; i < startTimeIndex; i++){
+        for (int i = 1; i < startTimeIndex; i++) {
             eventName.append(commandsList.get(i)).append(" ");
         }
-        for (int i=startTimeIndex+1; i < endTimeIndex; i++){
+        for (int i = startTimeIndex + 1; i < endTimeIndex; i++) {
             eventStartTime.append(commandsList.get(i)).append(" ");
         }
-        for (int i=endTimeIndex+1; i < commandsList.size(); i++){
+        for (int i = endTimeIndex + 1; i < commandsList.size(); i++) {
             eventEndTime.append(commandsList.get(i)).append(" ");
         }
 
-        String eventNameTrimmed =      eventName.toString().trim();
+        String eventNameTrimmed = eventName.toString().trim();
         String eventStartTimeTrimmed = eventStartTime.toString().trim();
-        String eventEndTimeTrimmed =   eventEndTime.toString().trim();
+        String eventEndTimeTrimmed = eventEndTime.toString().trim();
 
         // Trim all strings, then create and add deadline to the task list
-        if (eventNameTrimmed.isEmpty()){
+        if (eventNameTrimmed.isEmpty()) {
             eventNameTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
         }
-        if (eventStartTimeTrimmed.isEmpty()){
+        if (eventStartTimeTrimmed.isEmpty()) {
             eventStartTimeTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
         }
-        if (eventEndTimeTrimmed.isEmpty()){
+        if (eventEndTimeTrimmed.isEmpty()) {
             eventEndTimeTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
         }
         taskList.addEventToList(eventNameTrimmed, eventStartTimeTrimmed, eventEndTimeTrimmed);
@@ -118,24 +141,16 @@ public class Baraleous {
      * Adds deadline to the taskList list
      *
      * @param commandsList The user's input command, split into words
-     * @param taskList The taskList to add the newly-created task to
+     * @param taskList     The taskList to add the newly-created task to
      */
     private static void addDeadlineToTaskList(ArrayList<String> commandsList, TaskList taskList) {
-        //        if (commandsList.size() == 2) {   todo: add error checking
-    //            String indexToMark = commandsList.get(1);
-    //            unmarkTaskDone(indexToMark, taskList);
-    //        }else if (commandsList.size() > 2) {
-    //            printMessage("... That's too many arguments", false);
-    //        }else {
-    //            printMessage("... Which task should I to mark????", false);
-    //        }
         StringBuilder deadlineName = new StringBuilder();
         StringBuilder deadlineDueBy = new StringBuilder();
         // Loop through all words in command, looking for "/by" to find the due time
-        for (int i = 1; i < commandsList.size(); i++){
+        for (int i = 1; i < commandsList.size(); i++) {
             String str = commandsList.get(i);
-            if(str.startsWith("/by")){
-                for (int j = i+1; j < commandsList.size(); j++){
+            if (str.startsWith("/by")) {
+                for (int j = i + 1; j < commandsList.size(); j++) {
                     String str2 = commandsList.get(j);
                     if (str2.startsWith("/")) {
                         break;  // As another command found, is no longer part of '/by'
@@ -143,7 +158,7 @@ public class Baraleous {
                     deadlineDueBy.append(str2).append(" ");
                 }
                 break;
-            }else{
+            } else {
                 // Then not the deadline, so add to the task text
                 deadlineName.append(str).append(" ");
             }
@@ -151,10 +166,10 @@ public class Baraleous {
         // Trim all strings, then create and add deadline to the task list
         String deadlineNameTrimmed = deadlineName.toString().trim();
         String deadlineDueByTrimmed = deadlineDueBy.toString().trim();
-        if (deadlineNameTrimmed.isEmpty()){
+        if (deadlineNameTrimmed.isEmpty()) {
             deadlineNameTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
         }
-        if (deadlineDueByTrimmed.isEmpty()){
+        if (deadlineDueByTrimmed.isEmpty()) {
             deadlineDueByTrimmed = "UNSPECIFIED";   // In case user forgets to give due date
         }
         taskList.addDeadlineToList(deadlineNameTrimmed, deadlineDueByTrimmed);
@@ -166,24 +181,24 @@ public class Baraleous {
      * Marks a task as complete
      *
      * @param taskToMark The task index to mark as complete
-     * @param taskList The list of tasks
+     * @param taskList   The list of tasks
      */
     private static void markTaskDone(String taskToMark, TaskList taskList) {
         int taskIndex = Integer.parseInt(taskToMark);
         if (taskIndex <= 0) {
             printMessage("Mate.... task "
-                    + taskIndex+ " ..... really? Indexing starts at task 1.", false);
+                    + taskIndex + " ..... really? Indexing starts at task 1.", false);
             return;
         }
         if (taskIndex >= taskList.getTaskListLength()) {
             printMessage("Brother you are not that busy, you don't have "
-                    + taskIndex + " tasks, you only got "+ (taskList.getTaskListLength()-1), false);
+                    + taskIndex + " tasks, you only got " + (taskList.getTaskListLength() - 1), false);
             return;
         }
         Task curTask = taskList.getTaskFromList(taskIndex);
         if (curTask.getIsTaskDone()) {
             printMessage("Hey! That's already complete\n[X] " + curTask.toString(), false);
-        }else{
+        } else {
             curTask.setTaskDone(true);
             printMessage("OK! Task marked complete!\n[X] " + curTask.toString(), false);
         }
@@ -193,7 +208,7 @@ public class Baraleous {
      * Marks a task as not complete
      *
      * @param taskToMark The task index to mark as complete
-     * @param taskList The list of tasks to find taskToMark within
+     * @param taskList   The list of tasks to find taskToMark within
      */
     private static void unmarkTaskDone(String taskToMark, TaskList taskList) {
         int taskIndex = Integer.parseInt(taskToMark);
@@ -204,14 +219,14 @@ public class Baraleous {
         }
         if (taskIndex >= taskList.getTaskListLength()) {
             printMessage("Brother you are not that busy, you don't have "
-                    + taskIndex + " tasks, you only got " + (taskList.getTaskListLength()-1), false);
+                    + taskIndex + " tasks, you only got " + (taskList.getTaskListLength() - 1), false);
             return;
         }
         Task curTask = taskList.getTaskFromList(taskIndex);
         if (!curTask.getIsTaskDone()) {
             printMessage("Hey! That's already not complete\n[ ] "
                     + curTask.toString(), false);
-        }else{
+        } else {
             curTask.setTaskDone(false);
             printMessage("OK! Task marked as incomplete!\n[ ] "
                     + curTask.toString(), false);
@@ -224,20 +239,20 @@ public class Baraleous {
      * @param taskList The list to print
      */
     private static void listAllTasks(TaskList taskList) {
-        StringBuilder taskListString  = new StringBuilder();
+        StringBuilder taskListString = new StringBuilder();
         for (int i = 1; i < taskList.getTaskListLength(); i++) {
             Task curTask = taskList.getTaskFromList(i);
             String taskMarker = curTask.getIsTaskDone() ? "[X]" : "[ ]";
             String taskType;
-            if (curTask instanceof Deadline){
+            if (curTask instanceof Deadline) {
                 taskType = "[D]";
-            }else if (curTask instanceof Event){
+            } else if (curTask instanceof Event) {
                 taskType = "[E]";
-            }else{
+            } else {
                 taskType = "[T]";
             }
             taskListString.append(String.format("%d.%s%s %s", i, taskType, taskMarker, curTask.toString()));
-            if (i < taskList.getTaskListLength()-1) {
+            if (i < taskList.getTaskListLength() - 1) {
                 taskListString.append('\n');
             }
         }
@@ -261,7 +276,7 @@ public class Baraleous {
     /**
      * Splits the string into an array of words
      *
-     * @param string The string to be extracted from
+     * @param string       The string to be extracted from
      * @param commandsList The arraylist to write identified commands into
      */
     private static void getWordArrayFromString(String string, ArrayList<String> commandsList) {
@@ -272,7 +287,7 @@ public class Baraleous {
             firstSpace = stringTrimmed.length();
         }
         // Adds the first word to the commandsList ArrayList
-        String firstWord = stringTrimmed.substring(0,firstSpace).trim();
+        String firstWord = stringTrimmed.substring(0, firstSpace).trim();
         commandsList.add(firstWord);
         // Finds remaining string, and recursively passes. Base case then there is no remaining string.
         String remainder = stringTrimmed.substring(firstSpace);
