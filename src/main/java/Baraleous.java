@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Baraleous {
+    private static final String BARALEOUS_LOGO = "Hello! I'm Baraleous XIV!\n"
+            + "What can I do for you today?";
     public static void main(String[] args) {
-        String logo = "Hello! I'm Baraleous XIV!\n"
-                + "What can I do for you today?";
-        printMessage(logo, false);
+        printMessage(BARALEOUS_LOGO, false);
         Scanner scanner = new Scanner(System.in);
         TaskList taskList = new TaskList();
         while (true) {
