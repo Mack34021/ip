@@ -17,7 +17,6 @@ public class Baraleous {
         Scanner scanner = new Scanner(System.in);
         TaskList taskList = new TaskList();
         FileManager.readFile(saveFile, taskList.getTaskList());
-        listAllTasks(taskList);
         while (true) {
             String userInput = scanner.nextLine();
             ArrayList<String> commandsList = getArguments(userInput);

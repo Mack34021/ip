@@ -19,6 +19,12 @@ public class FileManager {
     public static File initialiseFile(){
         File file = new File("src/main/java/assets/saveFile.txt");
         try{
+            // Creates assets folder if there is not one already
+            File assets = new File("src/main/java/assets");
+            if (!assets.exists()){
+                assets.mkdir();
+            }
+            // Creates saveFile within the assets folder
             file.createNewFile();
         } catch (IOException e) {
             System.out.println("ERROR: FAILED TO INITIALISE FILE");
