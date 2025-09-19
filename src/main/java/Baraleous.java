@@ -16,6 +16,8 @@ public class Baraleous {
         saveFile = FileManager.initialiseFile();
         Scanner scanner = new Scanner(System.in);
         TaskList taskList = new TaskList();
+        FileManager.readFile(saveFile, taskList.getTaskList());
+        listAllTasks(taskList);
         while (true) {
             String userInput = scanner.nextLine();
             ArrayList<String> commandsList = getArguments(userInput);
@@ -95,7 +97,7 @@ public class Baraleous {
      * @param taskList     The taskList to add the newly-created task to
      */
     private static void addEventToTaskList(ArrayList<String> commandsList, TaskList taskList) {
-        // todo: add error checking
+        // todo: add error checking, incl for if insufficient qualifiers
         // Loop through all words in command, looking for start and end times
         int startTimeIndex = 0;
         int endTimeIndex = 0;

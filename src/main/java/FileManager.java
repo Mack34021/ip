@@ -1,13 +1,13 @@
 import items.Task;
-
 import items.Deadline;
 import items.Event;
-import items.Task;
 
 import java.io.File;       // Import the File class
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class FileManager {
 
@@ -64,6 +64,61 @@ public class FileManager {
             fileWriter.close();  // must close manually
         } catch (IOException e) {
             System.out.println("FILE WRITER FAILED");
+        }
+    }
+
+    private static void createTaskFromString(String string, ArrayList<Task> taskList){
+        boolean isTaskDone;
+        String taskName;
+        switch (string.charAt(0)){
+        case 'T':
+            taskName = string.substring(string.lastIndexOf('|') + 1);
+            isTaskDone = string.charAt(2) == 'X';
+            Task task = new Task(taskName);
+            task.setTaskDone(isTaskDone);
+            taskList.add(task);
+            break;
+        case 'D':
+            taskName = string.substring(string.lastIndexOf('|') + 1);
+            isTaskDone = string.charAt(2) == 'X';
+            String dueBy = string.substring(4, string.lastIndexOf('|'));
+            Deadline deadline = new Deadline(taskName, dueBy);
+            deadline.setTaskDone(isTaskDone);
+            taskList.add(deadline);
+            break;
+        case 'E':
+            taskName = string.substring(string.lastIndexOf('|') + 1);
+            isTaskDone = string.charAt(2) == 'X';       // at static place in line
+            int pipeFrom = 3;       // non-static placement starts her
+            // The penultimate | in the line, may be in a number of different positions
+            int pipeTo = string.substring(pipeFrom+1).indexOf('|') + pipeFrom + 1;
+            String from = string.substring(pipeFrom + 1, pipeTo);
+            String to = string.substring(pipeTo + 1, string.lastIndexOf('|'));
+            Event event = new Event(taskName, from, to);
+            event.setTaskDone(isTaskDone);
+            taskList.add(event);
+            break;
+        default:
+            break;
+        }
+
+    }
+
+    /**
+     * Reads the save file, and brings into memory
+     * @param file
+     * @param taskList
+     */
+    public static void readFile(File file, ArrayList<Task> taskList){
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+            while (scanner.hasNextLine()){
+                //System.out.println("Found Line: " + );
+                createTaskFromString(scanner.nextLine(), taskList);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }
