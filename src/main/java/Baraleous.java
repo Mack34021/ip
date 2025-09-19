@@ -240,6 +240,10 @@ public class Baraleous {
      */
     private static void listAllTasks(TaskList taskList) {
         StringBuilder taskListString = new StringBuilder();
+        if (taskList.getTaskListLength() == 1){
+            printMessage("No tasks exist.", false);
+            return;
+        }
         for (int i = 1; i < taskList.getTaskListLength(); i++) {
             Task curTask = taskList.getTaskFromList(i);
             String taskMarker = curTask.getIsTaskDone() ? "[X]" : "[ ]";
