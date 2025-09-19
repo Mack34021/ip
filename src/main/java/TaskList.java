@@ -23,6 +23,10 @@ public class TaskList {
         taskList.add(new Task(str));
     }
 
+    public void removeTaskFromList(int index) {
+        taskList.remove(index);
+    }
+
     public void addDeadlineToList(String str, String dueBy) {
         taskList.add(new Deadline(str, dueBy));
     }
