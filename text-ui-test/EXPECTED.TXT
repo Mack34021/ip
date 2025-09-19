@@ -9,7 +9,7 @@
   Added: 'Test2'
   ____________User____________
   _________Baraleous__________
-  OK! Task marked complete!
+  OK! items.Task marked complete!
   [X] Test input 1
   ____________User____________
   _________Baraleous__________
@@ -17,7 +17,7 @@
   [X] Test input 1
   ____________User____________
   _________Baraleous__________
-  OK! Task marked complete!
+  OK! items.Task marked complete!
   [X] Test2
   ____________User____________
   _________Baraleous__________
@@ -25,10 +25,10 @@
   [X] Test2
   ____________User____________
   _________Baraleous__________
-  Added Deadline: 'work' due by 'this afternoon'
+  Added items.Deadline: 'work' due by 'this afternoon'
   ____________User____________
   _________Baraleous__________
-  Added Deadline: 'play' due by 'never :(((('
+  Added items.Deadline: 'play' due by 'never :(((('
   ____________User____________
   _________Baraleous__________
   1.[T][X] Test input 1
@@ -37,7 +37,7 @@
   4.[D][ ] play (by: never :(((()
   ____________User____________
   _________Baraleous__________
-  OK! Task marked complete!
+  OK! items.Task marked complete!
   [X] work (by: this afternoon)
   ____________User____________
   _________Baraleous__________
@@ -47,10 +47,10 @@
   4.[D][ ] play (by: never :(((()
   ____________User____________
   _________Baraleous__________
-  Added Event: 'sleeping' starting at '2am' and ending at 'feels like 6am RIP my sleep schedule'
+  Added items.Event: 'sleeping' starting at '2am' and ending at 'feels like 6am RIP my sleep schedule'
   ____________User____________
   _________Baraleous__________
-  OK! Task marked complete!
+  OK! items.Task marked complete!
   [X] sleeping (from: 2am to: feels like 6am RIP my sleep schedule)
   ____________User____________
   _________Baraleous__________
@@ -67,7 +67,7 @@
   Added: 'todo cry'
   ____________User____________
   _________Baraleous__________
-  OK! Task marked complete!
+  OK! items.Task marked complete!
   [X] todo cry
   ____________User____________
   _________Baraleous__________
