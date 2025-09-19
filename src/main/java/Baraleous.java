@@ -38,23 +38,15 @@ public class Baraleous {
             listAllTasks(taskList);
             break;
         case "mark":    // Marks task as done
-            if (commandsList.size() == 2) {
+            if (checkCommandArguments(commandsList, 2)){
                 String indexToMark = commandsList.get(1);
                 markTaskDone(indexToMark, taskList);
-            } else if (commandsList.size() > 2) {
-                printMessage("... That's too many arguments", false);
-            } else {
-                printMessage("... Which task should I mark????", false);
             }
             break;
         case "unmark":    // Marks task as done
-            if (commandsList.size() == 2) {
+            if (checkCommandArguments(commandsList, 2)){
                 String indexToMark = commandsList.get(1);
                 unmarkTaskDone(indexToMark, taskList);
-            } else if (commandsList.size() > 2) {
-                printMessage("... That's too many arguments", false);
-            } else {
-                printMessage("... Which task should I to mark????", false);
             }
             break;
         case "deadline":    // Marks task as done
@@ -72,11 +64,29 @@ public class Baraleous {
             printMessage("Added: '" + taskToAdd + "'", false);
             taskList.addTaskToList(taskToAdd);
             break;
+        case "delete":    // Requested to delete task
+            if (checkCommandArguments(commandsList, 2)){
+                String indexToMark = commandsList.get(1);
+                removeTaskFromTaskList(indexToMark, taskList);
+            }
+            break;
         default:        // No actual commmand
             printMessage("Need to add a command!", false);
             break;
         }
         return false;
+    }
+
+    private static boolean checkCommandArguments(ArrayList<String> commandsList, int desiredArguments){
+        if (commandsList.size() == desiredArguments) {
+            return true;
+        } else if (commandsList.size() > desiredArguments) {
+            printMessage("... That's too many arguments", false);
+            return false;
+        } else {
+            printMessage("... That's too few arguments", false);
+            return false;
+        }
     }
 
     /**
@@ -182,6 +192,20 @@ public class Baraleous {
     }
 
     /**
+     * Removes a task form the taskList list
+     *
+     * @param taskToDelete The user's input command, for the task to delete
+     * @param taskList     The taskList to remove from the task list
+     */
+    private static void removeTaskFromTaskList(String taskToDelete, TaskList taskList){
+        int taskIndex = Integer.parseInt(taskToDelete);
+        if (checkTaskIndexExists(taskList, taskIndex)) return;
+        Task curTask = taskList.getTaskFromList(taskIndex);
+        printMessage("Deleting task [X] " + curTask.toString(), false);
+        taskList.removeTaskFromList(taskIndex);
+    }
+
+    /**
      * Marks a task as complete
      *
      * @param taskToMark The task index to mark as complete
@@ -189,16 +213,7 @@ public class Baraleous {
      */
     private static void markTaskDone(String taskToMark, TaskList taskList) {
         int taskIndex = Integer.parseInt(taskToMark);
-        if (taskIndex <= 0) {
-            printMessage("Mate.... task "
-                    + taskIndex + " ..... really? Indexing starts at task 1.", false);
-            return;
-        }
-        if (taskIndex >= taskList.getTaskListLength()) {
-            printMessage("Brother you are not that busy, you don't have "
-                    + taskIndex + " tasks, you only got " + (taskList.getTaskListLength() - 1), false);
-            return;
-        }
+        if (checkTaskIndexExists(taskList, taskIndex)) return;
         Task curTask = taskList.getTaskFromList(taskIndex);
         if (curTask.getIsTaskDone()) {
             printMessage("Hey! That's already complete\n[X] " + curTask.toString(), false);
@@ -209,6 +224,27 @@ public class Baraleous {
     }
 
     /**
+     * Check if the listed task actually exists.
+     *
+     * @param taskList  The list of tasks to operate on
+     * @param taskIndex the index to operate on
+     * @return true if no such task exists, false if task does exist
+     */
+    private static boolean checkTaskIndexExists(TaskList taskList, int taskIndex) {
+        if (taskIndex <= 0) {
+            printMessage("Mate.... task "
+                    + taskIndex + " ..... really? Indexing starts at task 1.", false);
+            return true;
+        }
+        if (taskIndex >= taskList.getTaskListLength()) {
+            printMessage("Brother you are not that busy, you don't have "
+                    + taskIndex + " tasks, you only got " + (taskList.getTaskListLength() - 1), false);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Marks a task as not complete
      *
      * @param taskToMark The task index to mark as complete
@@ -216,16 +252,7 @@ public class Baraleous {
      */
     private static void unmarkTaskDone(String taskToMark, TaskList taskList) {
         int taskIndex = Integer.parseInt(taskToMark);
-        if (taskIndex <= 0) {
-            printMessage("Mate.... task "
-                    + taskIndex + " ..... really? Indexing starts at task 1.", false);
-            return;
-        }
-        if (taskIndex >= taskList.getTaskListLength()) {
-            printMessage("Brother you are not that busy, you don't have "
-                    + taskIndex + " tasks, you only got " + (taskList.getTaskListLength() - 1), false);
-            return;
-        }
+        if (checkTaskIndexExists(taskList, taskIndex)) return;
         Task curTask = taskList.getTaskFromList(taskIndex);
         if (!curTask.getIsTaskDone()) {
             printMessage("Hey! That's already not complete\n[ ] "
