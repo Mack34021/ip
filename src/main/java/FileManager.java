@@ -17,17 +17,20 @@ public class FileManager {
      * @return the file if success, NULL if failure
      */
     public static File initialiseFile(){
-        File file = new File("src/main/java/assets/saveFile.txt");
+        File file = new File("assets/saveFile.txt");
         try{
+            System.out.println("folder tesi=ting....");
             // Creates assets folder if there is not one already
-            File assets = new File("src/main/java/assets");
+            File assets = new File("assets");
             if (!assets.exists()){
                 assets.mkdir();
             }
+            System.out.println("folder created");
             // Creates saveFile within the assets folder
             file.createNewFile();
         } catch (IOException e) {
             System.out.println("ERROR: FAILED TO INITIALISE FILE");
+            System.out.println(e);
             return null;
         }
 
@@ -63,7 +66,7 @@ public class FileManager {
      */
     public static void writeFile(File file, ArrayList<Task> taskList){
         try{
-            FileWriter fileWriter = new FileWriter("src/main/java/assets/saveFile.txt");
+            FileWriter fileWriter = new FileWriter("assets/saveFile.txt");
             for(int i=1; i < taskList.size(); i++){
                 fileWriter.write(formatForTestFile(taskList.get(i)));
             }
