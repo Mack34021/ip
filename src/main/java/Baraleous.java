@@ -79,6 +79,7 @@ public class Baraleous {
                 String indexToMark = commandsList.get(1);
                 removeTaskFromTaskList(indexToMark, taskList);
             }
+            FileManager.writeFile(saveFile, taskList.getTaskList());
             break;
         default:        // No actual commmand
             printMessage("Need to add a command!", false);
