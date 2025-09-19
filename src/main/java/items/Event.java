@@ -5,6 +5,14 @@ public class Event extends Task{
     private String startsAt;
     private String endsAt;
 
+    public String getStartsAt() {
+        return startsAt;
+    }
+
+    public String getEndsAt() {
+        return endsAt;
+    }
+
     public Event(String task, String startsAt, String endsAt) {
         super(task);
         this.startsAt = startsAt;

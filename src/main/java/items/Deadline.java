@@ -9,6 +9,10 @@ public class Deadline extends Task{
         this.dueBy = dueBy;
     }
 
+    public String getDueBy() {
+        return dueBy;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " (by: " + dueBy + ")";

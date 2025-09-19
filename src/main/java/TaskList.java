@@ -11,6 +11,10 @@ public class TaskList {
         this.taskList.add(new Task("ROOTTASK"));
     }
 
+    public ArrayList<Task> getTaskList() {
+        return taskList;
+    }
+
     public int getTaskListLength() {
         return taskList.size();
     }

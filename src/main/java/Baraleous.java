@@ -2,16 +2,21 @@ import items.Deadline;
 import items.Event;
 import items.Task;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Baraleous {
+    static File saveFile;
+
     private static final String BARALEOUS_LOGO = "Hello! I'm Baraleous XIV!\n"
             + "What can I do for you today?";
     public static void main(String[] args) {
         printMessage(BARALEOUS_LOGO, false);
+        saveFile = FileManager.initialiseFile();
         Scanner scanner = new Scanner(System.in);
         TaskList taskList = new TaskList();
+        FileManager.readFile(saveFile, taskList.getTaskList());
         while (true) {
             String userInput = scanner.nextLine();
             ArrayList<String> commandsList = getArguments(userInput);
@@ -46,6 +51,7 @@ public class Baraleous {
             } else {
                 printMessage("... Which task should I mark????", false);
             }
+            FileManager.writeFile(saveFile, taskList.getTaskList());
             break;
         case "unmark":    // Marks task as done
             if (commandsList.size() == 2) {
@@ -56,12 +62,15 @@ public class Baraleous {
             } else {
                 printMessage("... Which task should I to mark????", false);
             }
+            FileManager.writeFile(saveFile, taskList.getTaskList());
             break;
         case "deadline":    // Marks task as done
             addDeadlineToTaskList(commandsList, taskList);
+            FileManager.writeFile(saveFile, taskList.getTaskList());
             break;
         case "event":    // Marks task as done
             addEventToTaskList(commandsList, taskList);
+            FileManager.writeFile(saveFile, taskList.getTaskList());
             break;
         case "task":    // Requested new task added
             StringBuilder strBuil = new StringBuilder();
@@ -71,6 +80,7 @@ public class Baraleous {
             String taskToAdd = strBuil.toString().trim();
             printMessage("Added: '" + taskToAdd + "'", false);
             taskList.addTaskToList(taskToAdd);
+            FileManager.writeFile(saveFile, taskList.getTaskList());
             break;
         default:        // No actual commmand
             printMessage("Need to add a command!", false);
@@ -86,7 +96,7 @@ public class Baraleous {
      * @param taskList     The taskList to add the newly-created task to
      */
     private static void addEventToTaskList(ArrayList<String> commandsList, TaskList taskList) {
-        // todo: add error checking
+        // todo: add error checking, incl for if insufficient qualifiers
         // Loop through all words in command, looking for start and end times
         int startTimeIndex = 0;
         int endTimeIndex = 0;
