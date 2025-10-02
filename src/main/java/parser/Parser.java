@@ -1,12 +1,9 @@
 package parser;
 
 import fileManager.FileManager;
-import items.Deadline;
-import items.Event;
 import items.Task;
 import taskList.TaskList;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static ui.Ui.listSearchResult;
@@ -81,7 +78,7 @@ public class Parser {
             }
             FileManager.writeFile(saveFile, taskList.getTaskList());
             break;
-        case "find":    // Finds a string i possible
+        case "find":    // Finds a string if possible
             ArrayList<Task> taskMatches =  findByString(commandsList, taskList);
             listSearchResult(taskList, taskMatches);
             break;
