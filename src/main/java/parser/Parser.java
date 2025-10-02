@@ -1,11 +1,15 @@
 package parser;
 
 import fileManager.FileManager;
+import items.Deadline;
+import items.Event;
 import items.Task;
 import taskList.TaskList;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static ui.Ui.listSearchResult;
 import static utils.Utils.*;
 
 public class Parser {
@@ -76,6 +80,10 @@ public class Parser {
                 removeTaskFromTaskList(indexToMark, taskList);
             }
             FileManager.writeFile(saveFile, taskList.getTaskList());
+            break;
+        case "find":    // Finds a string i possible
+            ArrayList<Task> taskMatches =  findByString(commandsList, taskList);
+            listSearchResult(taskList, taskMatches);
             break;
         default:        // No actual commmand
             printMessage("Need to add a command!", false);
@@ -221,6 +229,31 @@ public class Parser {
         Task curTask = taskList.getTaskFromList(taskIndex);
         printMessage("Deleting task [X] " + curTask.toString(), false);
         taskList.removeTaskFromList(taskIndex);
+    }
+
+    /**
+     * Looks for the string in the names of all events
+     *
+     * @param stringToFind The user's input command, to be found
+     * @param taskList     The taskList to remove from the task list
+     */
+    private static ArrayList<Task> findByString(ArrayList<String> stringToFind, TaskList taskList){
+        ArrayList<Task> taskMatches = new ArrayList<>();
+
+        StringBuilder strBuil = new StringBuilder();
+        for(int i=1; i < stringToFind.size(); i++){
+            strBuil.append(" ").append(stringToFind.get(i));
+        }
+        String strToFind = strBuil.toString().trim();
+
+        for(int i=1; i < taskList.getTaskListLength(); i++){
+            Task task = taskList.getTaskFromList(i);
+            //System.out.println("Checking " + task.toString());
+            if(task.getTaskName().contains(strToFind)){
+                taskMatches.add(task);
+            }
+        }
+        return taskMatches;
     }
 }
 
