@@ -1,3 +1,5 @@
+package fileManager;
+
 import items.Task;
 import items.Deadline;
 import items.Event;
@@ -10,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileManager {
-
     /**
      * Initialises the save file.
      *
@@ -76,6 +77,12 @@ public class FileManager {
         }
     }
 
+    /**
+     * Creates a task and adds to tasks list from user command
+     *
+     * @param string The string to be used for the name of the task
+     * @param taskList The taskList to add to
+     */
     private static void createTaskFromString(String string, ArrayList<Task> taskList){
         boolean isTaskDone;
         String taskName;
@@ -115,8 +122,8 @@ public class FileManager {
 
     /**
      * Reads the save file, and brings into memory
-     * @param file
-     * @param taskList
+     * @param file the file to read from
+     * @param taskList the list to write to
      */
     public static void readFile(File file, ArrayList<Task> taskList){
         Scanner scanner = null;

@@ -1,3 +1,5 @@
+package taskList;
+
 import items.Deadline;
 import items.Event;
 import items.Task;
@@ -41,7 +43,7 @@ public class TaskList {
 
     @Override
     public String toString() {
-        return "TaskList{" +
+        return "taskList.TaskList{" +
                 "taskList=" + taskList +
                 '}';
     }
