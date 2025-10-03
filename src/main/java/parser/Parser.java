@@ -80,7 +80,7 @@ public class Parser {
             break;
         case "find":    // Finds a string if possible
             ArrayList<Task> taskMatches =  findByString(commandsList, taskList);
-            listSearchResult(taskList, taskMatches);
+            listSearchResult(taskMatches);
             break;
         default:        // No actual commmand
             printMessage("Need to add a command!", false);
