@@ -224,7 +224,7 @@ public class Parser {
         int taskIndex = Integer.parseInt(taskToDelete);
         if (checkTaskIndexExists(taskList, taskIndex)) return;
         Task curTask = taskList.getTaskFromList(taskIndex);
-        printMessage("Deleting task [X] " + curTask.toString(), false);
+        printMessage("Deleting task: " + curTask.toString(), false);
         taskList.removeTaskFromList(taskIndex);
     }
 
