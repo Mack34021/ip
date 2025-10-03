@@ -1,12 +1,15 @@
-# Baraleous Personal Assistant
+# Baraleous Personal Assistant User Guide
 
 This is the project repository for Baraleous. Given below are instructions on how to use it.
 
 ## Using Baraleous
 
 Baraleous is designed to be used to manage numerous commitments, both those with times attached, and those without.
+
 Baraleous' memory persists between sessions, so you can set tasks, and restart Baraleous later and they'll remember.
+
 All times are in natural language; Baraleous will not attempt to parse to any other format than the given string.
+
 All indexes start from 1, not 0.
 ## User Interface
 On startup Baraleous will greet the user with the following, promoting for a command.
@@ -52,7 +55,7 @@ deadline return book /by 27th April
 ### event
 Syntax: "event &lt;name> /from &lt;time1> /to &lt;time2>"
 
-Description: Adds a task &lt;name> that has a distinct start time &lt;time1> and end time &lt;time2> time
+Description: Adds a task &lt;name> that has a distinct start time &lt;time1> and end time &lt;time2>.
 
 Example:
 ```
@@ -80,7 +83,7 @@ mark 1
 ### unmark
 Syntax: "unmark &lt;index>"
 
-Description: The opposite of mark, unmarks the task
+Description: The opposite of mark, unmarks the task.
 
 Example:
 ```
@@ -96,9 +99,9 @@ Syntax: "list"
 
 Description: Generates and prints an indexed list of all current tasks tracked by Baraleous, and their current type and status.
 
-Return value Syntax is: "&lt;index> [&lt;task type>] [&lt;task done>] &lt;name> &lt;timings>"
+Return value Syntax is: "&lt;index>. [&lt;task type>][&lt;task done>] &lt;name> &lt;timings>".
 
-Where &lt;timings> will be empty for tasks, "(by: &lt;time1>)" for deadlines, and "(from: &lt;time1> to: &lt;time2>)" for events
+Where &lt;timings> will be empty for tasks, "(by: &lt;time1>)" for deadlines, and "(from: &lt;time1> to: &lt;time2>)" for events.
 
 Example:
 ```
@@ -113,7 +116,7 @@ list
 ### delete
 Syntax: "delete &lt;index>"
 
-Description: Deletes the task with index as &lt;x>
+Description: Deletes the task with index as &lt;x>.
 
 Example:
 ```
@@ -127,8 +130,10 @@ delete 2
 Syntax: "find &lt;string>"
 
 Description: Searches through all tasks in system for any task with a &lt;name> that contains the string.
-Returns a list of all such tasks to terminal
+Returns a list of all such tasks to terminal.
 
+NOTE: The index of results of this command will not neccessarily be the same as their actual index in the database. 
+e.g. in the example below, "read book" may not actually be at index 1.
 Example:
 ```
   ____________User____________
@@ -141,7 +146,8 @@ find book
 ### bye
 Syntax: "bye"
 
-Description: Closes the program
+Description: Terminates the program.
+
 Example:
 ```
   ____________User____________
