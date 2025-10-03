@@ -13,6 +13,14 @@ import static parser.Parser.getArguments;
 
 public class Utils {
 
+    /**
+     * Takes a line from scanner input and executes
+     *
+     * @param scanner The scanner to be read from
+     * @param taskList The tasklist to be added to if appropriate
+     * @param saveFile The save file to be written to if modifications are made
+     * @return true if must terminate the program, false if continuing
+     */
     public static boolean receiveInstruction(Scanner scanner, TaskList taskList,
                                              java.io.File saveFile){
         String userInput = scanner.nextLine();

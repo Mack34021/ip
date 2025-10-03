@@ -9,10 +9,6 @@ public class Task{
         this.isTaskDone = false;
     }
 
-    public void setTaskString(String task) {
-        this.task = task;
-    }
-
     public boolean getIsTaskDone() {
         return isTaskDone;
     }

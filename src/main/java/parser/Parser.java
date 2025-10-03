@@ -1,12 +1,9 @@
 package parser;
 
 import fileManager.FileManager;
-import items.Deadline;
-import items.Event;
 import items.Task;
 import taskList.TaskList;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static ui.Ui.listSearchResult;
@@ -83,7 +80,7 @@ public class Parser {
             break;
         case "find":    // Finds a string i possible
             ArrayList<Task> taskMatches =  findByString(commandsList, taskList);
-            listSearchResult(taskList, taskMatches);
+            listSearchResult(taskMatches);
             break;
         default:        // No actual commmand
             printMessage("Need to add a command!", false);
