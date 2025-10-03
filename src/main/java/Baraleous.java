@@ -13,7 +13,6 @@ public class Baraleous {
     public static void main(String[] args) {
         printMessage(Ui.logo(), false);
         saveFile = FileManager.initialiseFile();
-        System.out.println(saveFile);
         Scanner scanner = new Scanner(System.in);
         TaskList taskList = new TaskList();
         FileManager.readFile(saveFile, taskList.getTaskList());

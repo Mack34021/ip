@@ -20,13 +20,11 @@ public class FileManager {
     public static File initialiseFile(){
         File file = new File("assets/saveFile.txt");
         try{
-            System.out.println("folder tesi=ting....");
             // Creates assets folder if there is not one already
             File assets = new File("assets");
             if (!assets.exists()){
                 assets.mkdir();
             }
-            System.out.println("folder created");
             // Creates saveFile within the assets folder
             file.createNewFile();
         } catch (IOException e) {
